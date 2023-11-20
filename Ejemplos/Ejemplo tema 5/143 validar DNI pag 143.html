@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.02">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>Validar Correo Electronico</title>
+	<script type="text/javascript">
+		function validaDNI(){
+			valor = document.getElementById("dni").value;
+			var letras = ['T','R','W','A','G','M','Y','F','P','D','X',
+						'B','N','J','Z','S','Q','V','H','L','C','K','E','T'];
+			if ( !(/^\d{8}[A-Z]$/.test(valor)) ){ 
+			      alert ("DNI formato erroneo");
+				  return false; }
+			if (valor.charAt(8) != letras[valor.substring(0, 8)%23]){ 
+			      alert ("DNI letra erronea");
+				  return false; }
+			return true;
+		}
+	</script>
+    
+</head>
+
+<body>
+ 
+ <form action="yo.html" method="post" name="formValidado" onsubmit="return validaDNI()">
+	 <br/>
+	 DNI: <input type="text" id= "dni" /> <br/> <br/>
+	 <input name="envio" type="submit" value="Enviar Formulario" />
+ </form>
+ 
+ 
+</body>
+</html>

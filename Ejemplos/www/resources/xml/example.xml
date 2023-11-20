@@ -1,0 +1,16 @@
+<Users>
+
+    <User>
+        <name>David</name>
+        <age>20</age>
+        <email>dqvivi@gmail.com</email>
+        <password>1234</password>
+    </User>
+    <User>
+        <name>Juan</name>
+        <age>19</age>
+        <email>juanico@gmail.com</email>
+        <password>9887</password>
+    </User>
+
+</Users>

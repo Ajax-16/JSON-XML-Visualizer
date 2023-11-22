@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XML VIEWER</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XML VIEWER</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
   <link rel="stylesheet" href="../lib/codemirror-5.65.16/lib/codemirror.css">
   <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css">
 </head>
-<body  class="xml-code">
+
+<body class="xml-code">
   <nav>
     <div class="nav-element"><a href="../jsonViewer/index.html">JSON</a></div>
     <div class="nav-element">
@@ -18,14 +20,18 @@
     <div class="nav-element"><a href="index.html">XML</a></div>
   </nav>
 
-  <div class="section">
+  <div class="main">
+    <div class="section">
 
-    <main>
-      <textarea id="code" name="code"></textarea>
-    </main>
+      <main>
+        <textarea id="code" name="code"></textarea>
+      </main>
 
-    <div class="btn">
-      <button>VISUALIZAR</button>
+      <div class="btn">
+        <button onclick="editor.setValue(formatContent(editor.getValue()))">FORMATEAR</button>
+        <button onclick="clearContent()">LIMPIAR</button>
+      </div>
+
     </div>
 
     <div class="graph">
@@ -35,19 +41,24 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
   <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
-  <script src="../lib/codemirror-5.65.16/mode/javascript/javascript.js"></script>
-  <script src="../lib/xml.js"></script>
+  <script src="../lib/codemirror-5.65.16/mode/xml/xml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-html.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-css.js"></script>
 
   <script>
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-      mode: "application/xml",
-      theme: "darcula",
-      lineNumbers: true
+      autoCloseBrackets: true,
+      lineNumbers: true,
+      theme: 'darcula',
+      mode: "xml"
     });
   </script>
+
+</body>
+
 </html>

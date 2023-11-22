@@ -18,6 +18,25 @@
             "departamento": "CEO",
             "sueldo": true
         }
+    ],
+    "mantenimiento": [
+        {
+            "nombre": "Paco Pérez",
+            "edad": 28,
+            "departamento": "Informática",
+            "sueldo": false
+        },
+        {
+            "nombre": "Jesús García",
+            "edad": 33,
+            "departamento": "Recursos Humanos",
+            "sueldo": true
+        },
+        {
+            "nombre": "María López",
+            "edad": 32,
+            "departamento": "CEO",
+            "sueldo": true
+        }
     ]
 }
-

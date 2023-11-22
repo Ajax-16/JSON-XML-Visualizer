@@ -1,43 +1,23 @@
-[
-    {
-        "name": "David",
-        "age": 20,
-        "email": "dqvivi@gmail.com",
-        "password": "1234"
-    },
-    {
-        "name": "Juan",
-        "age": 19,
-        "email": "juanico@gmail.com",
-        "password": "9887",
-        "password2": "9887",
-        "methods": [
-            {
-                "name": "hola",
-                "password": "adios"
-            },
-            {
-                "name": "hola",
-                "password": "adios"
-            }
-        ]
-    },
-    {
-        "name": "Andrei",
-        "age": 26,
-        "email": "andrei@gmail.com",
-        "password": "7654"
-    },
-    {
-        "name": "Celia",
-        "age": 20,
-        "email": "chel@gmail.com",
-        "password": "7392"
-    },
-    {
-        "name": "Javier",
-        "age": 19,
-        "email": "javivi@gmail.com",
-        "password": "0196"
-    }
-]
+{
+    "empleados": [
+        {
+            "nombre": "Paco Pérez",
+            "edad": 28,
+            "departamento": "Informática",
+            "sueldo": false
+        },
+        {
+            "nombre": "Jesús García",
+            "edad": 33,
+            "departamento": "Recursos Humanos",
+            "sueldo": true
+        },
+        {
+            "nombre": "María López",
+            "edad": 32,
+            "departamento": "CEO",
+            "sueldo": true
+        }
+    ]
+}
+

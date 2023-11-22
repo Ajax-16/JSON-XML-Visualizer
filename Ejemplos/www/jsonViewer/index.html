@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSON VIEWER</title>
-    <link rel="stylesheet" href="../css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../lib/codemirror-5.65.16/lib/codemirror.css">
+    <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css">
+  </head>
+  <body>
     <nav>
-        <div class="nav-element"><a href="jsonViewer/index.html">JSON</a></div>
-        <div class="nav-element"><a href="xmlViewer/index.html">XML</a></div>
+      <div class="nav-element"><a href="index.html">JSON</a></div>
+      <div class="nav-element">
+        <a href="../index.html"><i class="bi-house"></i></a>
+      </div>
+      <div class="nav-element"><a href="../xmlViewer/index.html">XML</a></div>
     </nav>
-</body>
+
+    <main>
+        <div class="json-code">
+            <textarea id="code" name="code"></textarea>
+        </div>
+    </main>
+
+    <div class="graph">
+        <div class="box"></div>
+    </div>
+
+    <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
+    <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
+    <script src="../lib/codemirror-5.65.16/mode/javascript/javascript.js"></script>
+
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      autoCloseBrackets: true,
+      lineNumbers: true,
+      theme: 'darcula',
+      mode: "application/ld+json" 
+    });
+      </script>
+  </body>
 </html>

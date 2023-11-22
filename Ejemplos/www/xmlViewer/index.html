@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../lib/codemirror-5.65.16/lib/codemirror.css">
   <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css">
 </head>
-<body>
+<body  class="xml-code">
   <nav>
     <div class="nav-element"><a href="../jsonViewer/index.html">JSON</a></div>
     <div class="nav-element">
@@ -18,11 +18,25 @@
     <div class="nav-element"><a href="index.html">XML</a></div>
   </nav>
 
-  <main>
-    <div class="xml-code">
-        <textarea id="code" name="code"></textarea>
+  <div class="section">
+
+    <main>
+      <textarea id="code" name="code"></textarea>
+    </main>
+
+    <div class="btn">
+      <button>VISUALIZAR</button>
     </div>
-  </main>
+
+    <div class="graph">
+      <div class="box">
+        <div class="placeholder">
+          ¡Introduce texto en formato <span class="xml">XML</span> para comenzar!
+        </div>
+      </div>
+    </div>
+
+  </div>
 
   <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
   <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>

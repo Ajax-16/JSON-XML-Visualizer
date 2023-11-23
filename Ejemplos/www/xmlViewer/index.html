@@ -1,64 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XML VIEWER</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../lib/codemirror-5.65.16/lib/codemirror.css"
+    />
+    <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XML VIEWER</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-  <link rel="stylesheet" href="../lib/codemirror-5.65.16/lib/codemirror.css">
-  <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css">
-</head>
+  <body class="xml-code">
+    <nav>
+      <div class="nav-element"><a href="../jsonViewer/index.html">JSON</a></div>
+      <div class="nav-element">
+        <a href="../index.html"><i class="bi-house"></i></a>
+      </div>
+      <div class="nav-element"><a href="index.html">XML</a></div>
+    </nav>
 
-<body class="xml-code">
-  <nav>
-    <div class="nav-element"><a href="../jsonViewer/index.html">JSON</a></div>
-    <div class="nav-element">
-      <a href="../index.html"><i class="bi-house"></i></a>
-    </div>
-    <div class="nav-element"><a href="index.html">XML</a></div>
-  </nav>
+    <div class="main">
+      <div class="section">
+        <main>
+          <textarea id="code" name="code"></textarea>
+        </main>
 
-  <div class="main">
-    <div class="section">
-
-      <main>
-        <textarea id="code" name="code"></textarea>
-      </main>
-
-      <div class="btn">
-        <button onclick="editor.setValue(formatContent(editor.getValue()))">FORMATEAR</button>
-        <button onclick="clearContent()">LIMPIAR</button>
+        <div class="btn">
+          <button onclick="editor.setValue(formatContent(editor.getValue()))">
+            FORMATEAR
+          </button>
+          <button onclick="clearContent()">LIMPIAR</button>
+        </div>
       </div>
 
-    </div>
-
-    <div class="graph">
-      <div class="box">
-        <div class="placeholder">
-          ¡Introduce texto en formato <span class="xml">XML</span> para comenzar!
+      <div class="graph">
+        <div class="box">
+          <div class="placeholder">
+            ¡Introduce texto en formato <span class="xml">XML</span> para
+            comenzar!
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
-  <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
-  <script src="../lib/codemirror-5.65.16/mode/xml/xml.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-html.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-css.js"></script>
+    <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
+    <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
+    <script src="../lib/codemirror-5.65.16/mode/xml/xml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-html.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-css.js"></script>
+    <script src="../lib/vkbeautify.js"></script>
+</head>
 
-  <script>
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-      autoCloseBrackets: true,
-      lineNumbers: true,
-      theme: 'darcula',
-      mode: "xml"
-    });
-  </script>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        autoCloseBrackets: true,
+        lineNumbers: true,
+        theme: "darcula",
+        mode: "xml",
+      });
 
-</body>
+      editor.setSize(null, 350);
 
+      let placeholder =
+        '¡Introduce texto en formato <span class="xml">XML</span> para comenzar!';
+      let graphBox = document.querySelector(".placeholder");
+
+      const initialStoredXmlString = localStorage.getItem("xml");
+      const initialStoredXml = initialStoredXmlString
+        ? new DOMParser().parseFromString(
+            initialStoredXmlString,
+            "application/xml"
+          )
+        : null;
+
+      if (initialStoredXml) {
+        const formattedXML = formatContent(initialStoredXmlString);
+        editor.setValue(formattedXML);
+      }
+
+      initialStoredXml
+        ? (graphBox.innerHTML = createElements(getXML()))
+        : placeholder;
+
+      editor.on("change", () => {
+        graphBox.innerHTML = createElements(getXML());
+      });
+
+      function createElements(elemento) {
+        if(elemento === placeholder){
+          return storedXML;
+        }
+        // Inicializa una variable para almacenar el resultado
+        let resultado = `<div class="element"><span class="element-title">${elemento.nodeName}</span>`;
+
+        // Imprime los atributos del elemento actual
+        if (elemento.attributes) {
+          for (let i = 0; i < elemento.attributes.length; i++) {
+            let atributo = elemento.attributes[i];
+            // Agrega el resultado al acumulador
+            resultado += `<div class="attrib">${atributo.name} = ${atributo.value}</div>`;
+          }
+        }
+
+        // Recorre los elementos hijos de manera recursiva
+        for (let i = 0; i < elemento.childNodes.length; i++) {
+          let hijo = elemento.childNodes[i];
+
+          if (hijo.nodeType === 1) {
+            // Agrega el resultado de la llamada recursiva al acumulador
+            resultado += createElements(hijo);
+          } else if (hijo.nodeType === 3) {
+            // Si es un nodo de texto, agrega su contenido al acumulador
+            resultado += `<div>${hijo.nodeValue.trim()}</div>`;
+          }
+        }
+
+        // Cierra el div del elemento actual
+        resultado += `</div>`;
+        // Devuelve el resultado acumulado
+        return resultado;
+      }
+
+      function getXML() {
+        const xmlString = editor.getValue();
+
+        let parser = new DOMParser();
+        const xml = parser.parseFromString(xmlString, "application/xml");
+        if (xml.documentElement.getElementsByTagName("parsererror")[0]) {
+          const storedXMLString = localStorage.getItem("xml");
+          parser = new DOMParser();
+          var storedXML = parser.parseFromString(
+            storedXMLString,
+            "application/xml"
+          );
+
+          return placeholder;
+        } else {
+          localStorage.setItem("xml", xmlString);
+          return xml.documentElement;
+        }
+      }
+
+      function formatContent(content) {
+        const formattedXml = vkbeautify.xml(content, 2);
+        return formattedXml;
+      }
+      function clearContent() {
+        const storedXMLString = localStorage.getItem("xml");
+
+        if (storedXMLString) {
+          localStorage.removeItem("xml");
+          editor.setValue("");
+          graphBox.innerHTML = placeholder;
+        }
+      }
+    </script>
+  </body>
 </html>

@@ -61,15 +61,16 @@ a {
 
 h1 {
   text-align: center;
-  min-width: 400px;
-  max-width: 400px;
+  font-size: 5rem;
+  max-width: 800px;
 }
 
-main {
-  margin: 128px 0;
+main{
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  margin: 128px 0;
   width: 90vw;
   opacity: 0;
   animation: opacity 0.6s ease-in-out both;
@@ -98,6 +99,8 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -80px;
+  margin-top: -100px;
   animation: opacity 0.6s ease-in-out both;
   transform: translateY(20px);
 }
@@ -105,7 +108,8 @@ main {
 .title img {
   width: 300px;
   border-radius: 10px;
-  margin-top: 40px;
+  margin-top: 50px;
+  margin-bottom: 60px;
 }
 
 .box img {
@@ -123,7 +127,8 @@ main {
 }
 
 .bigger {
-  font-size: 2.25rem;
+  font-size: 5.55rem;
+  max-width: 800px;
 }
 
 .json {
@@ -306,7 +311,7 @@ main {
 /*
 
 #------------------------
-  GRAPH
+  JSON
 #------------------------
 
 */
@@ -326,6 +331,10 @@ main {
 
 @media (max-width: 1750px) {
 
+  main .box {
+    padding: 40px 0;
+  }
+
   .main {
     display: flex;
     flex-direction: column;
@@ -336,11 +345,17 @@ main {
 
   .section {
     position: static;
+    margin-bottom: 100px;
+    margin-top: -100px;
   }
 
   .fetch{
-    position: static;
-    margin-top: -10px;
+    position: absolute;
+    top:600px;
+  }
+
+  .main .box{
+    margin-left: 40px;
   }
 
 }
@@ -408,6 +423,57 @@ main {
   word-wrap: break-word;
 }
 
+/*
+
+#------------------------
+  XML
+#------------------------
+
+*/
+
+.element {
+  min-width: 200px;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 4px;
+  border: 3px solid #C42A2A;
+  margin: 10px;
+  max-width: 800px;
+  padding: 20px;
+  padding-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap:10px
+}
+
+.element-title {
+  display: block;
+  font-size: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #C42A2A;
+  text-align: center;
+  width: 100%;
+  color: #222;
+  padding-bottom: 4px;
+  font-weight: bold;
+  position: absolute; /* Cambiado a absolute */
+}
+
+.attrib {
+  background-color: #fff;
+  text-align: center;
+  border-bottom: 3px solid #C42A2A;
+  width: calc(100% + 40px); /* Hacer que .attrib tenga el mismo ancho que .element */
+  color: #222;
+  padding-bottom: 4px;
+  font-weight: bold;
+  margin-top: -10px;
+}
 /*
 
 #------------------------

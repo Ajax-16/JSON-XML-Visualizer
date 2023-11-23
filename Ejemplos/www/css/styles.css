@@ -41,9 +41,7 @@ nav {
     text-underline-offset: 0.4em;
 
     &:hover {
-      color: #fff;
       transition: all 0.2s linear;
-      text-decoration-color: rgba(255, 255, 255, 1);
       text-underline-offset: 0.2em;
     }
 
@@ -53,6 +51,20 @@ nav {
   }
 
   z-index: 99999;
+}
+
+.home:hover {
+  color: #fff;
+}
+
+.json-header:hover{
+    color: #e18f00;
+    text-decoration-color: #e18f00;
+}
+
+.xml-header:hover {
+  color: #c42a2a;
+    text-decoration-color: #c42a2a;
 }
 
 a {
@@ -237,7 +249,7 @@ main{
 
 }
 
-.xml-code .btn button {
+.xml-code .btn button, .xml-code .fetch-btn button {
   background-color: rgba(196,	42,	42, .6);
 
   &:hover {
@@ -269,6 +281,14 @@ main{
   animation: opacity 0.6s ease-in-out both;
   opacity: 0;
   
+}
+
+.json-code #fetch {
+  border:2px solid rgba(225,	143,	0, .6); 
+}
+
+.xml-code #fetch {
+  border:2px solid rgba(196,	42,	42, .6);
 }
 
 .fetch-btn button{
@@ -379,6 +399,7 @@ main{
   background-color: #00E18F;
   text-align: center;
   width: 100%;
+  font-size: 20px;
   padding-right: -10px;
   color: #222 ;
   padding-bottom: 4px;
@@ -396,6 +417,7 @@ main{
   top: 0;
   left: 0;
   right: 0;
+  font-size: 20px;
   background-color: #e18f00;
   text-align: center;
   width: 100%;

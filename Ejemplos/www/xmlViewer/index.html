@@ -18,11 +18,11 @@
 
   <body class="xml-code">
     <nav>
-      <div class="nav-element"><a href="../jsonViewer/index.html">JSON</a></div>
-      <div class="nav-element">
+      <div class="nav-element json-header"><a href="../jsonViewer/index.html">JSON</a></div>
+      <div class="nav-element home">
         <a href="../index.html"><i class="bi-house"></i></a>
       </div>
-      <div class="nav-element"><a href="index.html">XML</a></div>
+      <div class="nav-element xml-header"><a href="index.html">XML</a></div>
     </nav>
 
     <div class="main">
@@ -36,6 +36,14 @@
             FORMATEAR
           </button>
           <button onclick="clearContent()">LIMPIAR</button>
+        </div>
+        <div class="fetch">
+          <input type="text" name="fetch" id="fetch" value="http://localhost/resources/xml/books.xml"/>
+          <div class="fetch-btn">
+            <button onclick="fetchData(document.querySelector('#fetch').value)">
+              CONSUMIR ENLACE
+            </button>
+          </div>
         </div>
       </div>
 
@@ -73,12 +81,20 @@
       let graphBox = document.querySelector(".placeholder");
 
       const initialStoredXmlString = localStorage.getItem("xml");
+      const initialXMLURL = localStorage.getItem("xml_url");
       const initialStoredXml = initialStoredXmlString
         ? new DOMParser().parseFromString(
             initialStoredXmlString,
             "application/xml"
           )
         : null;
+
+        if (initialXMLURL) {
+        // Obtener la referencia al elemento input
+        const fetchInput = document.querySelector("#fetch");
+        // Establecer el valor del atributo value
+        fetchInput.value = initialXMLURL;
+      }
 
       if (initialStoredXml) {
         const formattedXML = formatContent(initialStoredXmlString);
@@ -94,8 +110,10 @@
       });
 
       function createElements(elemento) {
-        if(elemento === placeholder){
-          return storedXML;
+        if(elemento === placeholder && localStorage.getItem("xml")){
+          return createElements(initialStoredXml.documentElement);
+        }else if(elemento === placeholder && localStorage.getItem("xml") === null){
+          return placeholder;
         }
         // Inicializa una variable para almacenar el resultado
         let resultado = `<div class="element"><span class="element-title">${elemento.nodeName}</span>`;
@@ -154,13 +172,43 @@
       }
       function clearContent() {
         const storedXMLString = localStorage.getItem("xml");
+        const storedURL = localStorage.getItem("xml_url");
+        let input = document.querySelector("#fetch");
+        input.value = "";
 
         if (storedXMLString) {
           localStorage.removeItem("xml");
-          editor.setValue("");
           graphBox.innerHTML = placeholder;
+          editor.setValue("");
+          if (storedURL) {
+            localStorage.removeItem("xml_url");
+          }
         }
       }
+
+      function fetchData(url) {
+        localStorage.setItem("xml_url", url);
+
+        let input = document.querySelector("#fetch");
+
+        input.value = url;
+
+        fetch(url)
+          .then(response => response.text())
+          .then(str => {
+            console.log(str)
+            const formattedXML = formatContent(str);
+            editor.setValue(formattedXML);
+            const xml = new DOMParser().parseFromString(formattedXML, 'application/xml').documentElement;
+            graphBox.innerHTML = createElements(xml);
+            document.body.scrollIntoView({ behavior: "smooth" });
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+            // Manejar el error según sea necesario
+          });
+      } 
+            
     </script>
   </body>
 </html>

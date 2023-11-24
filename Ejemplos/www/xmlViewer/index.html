@@ -41,7 +41,7 @@
           <input type="text" name="fetch" id="fetch" value="http://localhost/resources/xml/books.xml"/>
           <div class="fetch-btn">
             <button onclick="fetchData(document.querySelector('#fetch').value)">
-              CONSUMIR ENLACE
+              CONSUMIR ARCHIVO
             </button>
           </div>
         </div>
@@ -111,7 +111,7 @@
 
       function createElements(elemento) {
         if(elemento === placeholder && localStorage.getItem("xml")){
-          return createElements(initialStoredXml.documentElement);
+          return createElements(new DOMParser().parseFromString(localStorage.getItem("xml"), 'application/xml').documentElement);
         }else if(elemento === placeholder && localStorage.getItem("xml") === null){
           return placeholder;
         }

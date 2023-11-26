@@ -1,233 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JSON VIEWER</title>
-    <link rel="stylesheet" href="../css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../lib/codemirror-5.65.16/lib/codemirror.css"
-    />
-    <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css" />
-  </head>
 
-  <body class="json-code">
-    <nav>
-      <div class="nav-element json-header"><a href="index.html">JSON</a></div>
-      <div class="nav-element home">
-        <a href="../index.html"><i class="bi-house"></i></a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON VIEWER</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../lib/codemirror-5.65.16/lib/codemirror.css" />
+  <link rel="stylesheet" href="../lib/codemirror-5.65.16/theme/darcula.css" />
+</head>
+
+<body class="json-code">
+  <nav>
+    <div class="nav-element json-header"><a href="index.html">JSON</a></div>
+    <div class="nav-element home">
+      <a href="../index.html"><i class="bi-house"></i></a>
+    </div>
+    <div class="nav-element xml-header"><a href="../xmlViewer/index.html">XML</a></div>
+  </nav>
+
+  <div class="main">
+    <div class="section">
+      <main>
+        <textarea id="code" name="code"></textarea>
+      </main>
+
+      <div class="btn">
+        <button onclick="editor.setValue(formatContent(editor.getValue()))">
+          FORMATEAR
+        </button>
+        <button onclick="clearContent()">LIMPIAR</button>
       </div>
-      <div class="nav-element xml-header"><a href="../xmlViewer/index.html">XML</a></div>
-    </nav>
 
-    <div class="main">
-      <div class="section">
-        <main>
-          <textarea id="code" name="code"></textarea>
-        </main>
-
-        <div class="btn">
-          <button onclick="editor.setValue(formatContent(editor.getValue()))">
-            FORMATEAR
+      <div class="fetch">
+        <input type="text" name="fetch" id="fetch" />
+        <div class="fetch-btn">
+          <button onclick="fetchData(document.querySelector('#fetch').value)">
+            CONSUMIR API
           </button>
-          <button onclick="clearContent()">LIMPIAR</button>
-        </div>
-
-        <div class="fetch">
-          <input type="text" name="fetch" id="fetch" />
-          <div class="fetch-btn">
-            <button onclick="fetchData(document.querySelector('#fetch').value)">
-              CONSUMIR API
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="graph">
-        <div class="box">
-          <div class="placeholder">
-            ¡Introduce texto en formato <span class="json">JSON</span> para
-            comenzar!
-          </div>
         </div>
       </div>
     </div>
 
-    <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
-    <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
-    <script src="../lib/codemirror-5.65.16/mode/javascript/javascript.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-html.js"></script>
-    <script src="../lib/vkbeautify.js"></script>
+    <div class="graph">
+      <div class="box">
+        <div class="placeholder">
+          ¡Introduce texto en formato <span class="json">JSON</span> para
+          comenzar!
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-      // JSON VISUALIZER
+  <script src="../lib/codemirror-5.65.16/lib/codemirror.js"></script>
+  <script src="../lib/codemirror-5.65.16/addon/edit/closebrackets.js"></script>
+  <script src="../lib/codemirror-5.65.16/mode/javascript/javascript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.0/js/lib/beautify-html.js"></script>
+  <script src="../lib/vkbeautify.js"></script>
 
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        autoCloseBrackets: true,
-        lineNumbers: true,
-        theme: "darcula",
-        mode: "application/ld+json",
-      });
+  <script>
+    // JSON VISUALIZER
 
-      editor.setSize(null, 350);
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      autoCloseBrackets: true,
+      lineNumbers: true,
+      theme: "darcula",
+      mode: "application/ld+json",
+    });
 
-      let placeholder =
-        '¡Introduce texto en formato <span class="json">JSON</span> para comenzar!';
-      let graphBox = document.querySelector(".placeholder");
+    editor.setSize(null, 350);
 
-      const initialStoredJsonString = localStorage.getItem("json");
-      const initalStoredJson = JSON.parse(initialStoredJsonString);
-      const initialAPIURL = localStorage.getItem("api_url");
+    let placeholder =
+      '¡Introduce texto en formato <span class="json">JSON</span> para comenzar!';
+    let graphBox = document.querySelector(".placeholder");
 
-      if (initialAPIURL) {
-        // Obtener la referencia al elemento input
-        const fetchInput = document.querySelector("#fetch");
-        // Establecer el valor del atributo value
-        fetchInput.value = initialAPIURL;
+    const initialStoredJsonString = localStorage.getItem("json");
+    const initalStoredJson = JSON.parse(initialStoredJsonString);
+    const initialAPIURL = localStorage.getItem("api_url");
+
+    if (initialAPIURL) {
+      // Obtener la referencia al elemento input
+      const fetchInput = document.querySelector("#fetch");
+      // Establecer el valor del atributo value
+      fetchInput.value = initialAPIURL;
+    }
+
+    if (initalStoredJson) {
+      const formattedJson = formatContent(initialStoredJsonString);
+      editor.setValue(formattedJson);
+    }
+
+    initalStoredJson
+      ? (graphBox.innerHTML = createElements(getJSON()))
+      : placeholder;
+
+    // GENERA EL HTML RESULTANTE DEL JSON
+
+    editor.on("change", () => {
+      graphBox.innerHTML = createElements(getJSON());
+    });
+
+    // VERIFICA SI HAY ALGO EN EL EDITOR PARA DEJAR DE MOSTRAR EL OBJETO ANTERIOR
+
+    editor.on("change", function (instance, changeObj) {
+      if (changeObj.origin === "+delete" || changeObj.origin === "cut") {
+        const currentValue = editor.getValue();
+        if (changeObj.text.length === 1 && currentValue.trim() === changeObj.text[0]) {
+          graphBox.innerHTML = placeholder;
+        }
+      }
+    });
+
+    function createElements(obj, propertyName = "") {
+      if (typeof obj !== "object" || obj === null) {
+        if (isImageUrl(obj)) {
+          return `<a class="url" href="${obj}" target="_blank">${obj}<br><img src="${obj}" class="image" alt="imagen" /></a>`;
+        } else if (isApiLink(obj)) {
+          return `<button class="url" onclick="fetchData('${obj}')">${obj}</button>`;
+        } else {
+          return `${obj}`;
+        }
       }
 
-      if (initalStoredJson) {
-        const formattedJson = formatContent(initialStoredJsonString);
-        editor.setValue(formattedJson);
-      }
-
-      initalStoredJson
-        ? (graphBox.innerHTML = createElements(getJSON()))
-        : placeholder;
-
-      editor.on("change", () => {
-        graphBox.innerHTML = createElements(getJSON());
-      });
-
-      function createElements(obj, propertyName = "") {
-        if (typeof obj !== "object" || obj === null) {
-          if (isImageUrl(obj)) {
-            return `<a class="url" href="${obj}" target="_blank">${obj}<br><img src="${obj}" class="image" alt="imagen" /></a>`;
-          } else if (isApiLink(obj)) {
-            return `<button class="url" onclick="fetchData('${obj}')">${obj}</button>`;
-          } else {
-            return `${obj}`;
-          }
-        }
-
-        if (Array.isArray(obj)) {
-          const arrayElements = obj
-            .map(
-              (element) =>
-                `<div class="array-item">${createElements(element)}</div>`
-            )
-            .join("");
-          const arrayTitle = propertyName
-            ? `<div class="array-title">${propertyName}</div>`
-            : '<div class="array-title">ARRAY</div>';
-          return `<div class="array">${arrayTitle}<span class="array-item">${arrayElements}</span></div>`;
-        }
-
-        const objectEntries = Object.entries(obj)
+      if (Array.isArray(obj)) {
+        const arrayElements = obj
           .map(
-            ([key, value]) =>
-              `<div class="object-line"><span class="key">${key}:</span> ${createElements(
-                value,
-                key
-              )}</div>`
+            (element) =>
+              `<div class="array-item">${createElements(element)}</div>`
           )
           .join("");
-
-        const objectTitle = propertyName
-          ? `<div class="object-title">${propertyName}</div>`
-          : '<div class="object-title">OBJETO</div>';
-
-        return `<div class="object">${objectTitle}${objectEntries}</div>`;
+        const arrayTitle = propertyName
+          ? `<div class="array-title">${propertyName}</div>`
+          : '<div class="array-title">ARRAY</div>';
+        return `<div class="array">${arrayTitle}<span class="array-item">${arrayElements}</span></div>`;
       }
 
-      function isImageUrl(text) {
-        const imageUrlRegex = /\.(jpeg|jpg|gif|png)$/i;
-        return imageUrlRegex.test(text);
-      }
+      const objectEntries = Object.entries(obj)
+        .map(
+          ([key, value]) =>
+            `<div class="object-line"><span class="key">${key}:</span> ${createElements(
+              value,
+              key
+            )}</div>`
+        )
+        .join("");
 
-      function openImage(url) {
-        window.open(url, "_blank");
-      }
+      const objectTitle = propertyName
+        ? `<div class="object-title">${propertyName}</div>`
+        : '<div class="object-title">OBJETO</div>';
 
-      function isApiLink(text) {
-        // Utiliza una expresión regular para verificar si el texto es un enlace a una API
-        const apiLinkRegex = /^https?:\/\/\S+/i;
-        return apiLinkRegex.test(text);
-      }
-      function getJSON() {
-        try {
-          const jsonString = editor.getValue();
-          const json = JSON.parse(jsonString);
-          localStorage.setItem("json", JSON.stringify(json));
-          return json;
-        } catch (e) {
-          const storedJsonString = localStorage.getItem("json");
-          const storedJson = JSON.parse(storedJsonString);
-          return storedJson ? storedJson : placeholder;
-        }
-      }
+      return `<div class="object">${objectTitle}${objectEntries}</div>`;
+    }
 
-      function clearContent() {
+    function isImageUrl(text) {
+      const imageUrlRegex = /\.(jpeg|jpg|gif|png)$/i;
+      return imageUrlRegex.test(text);
+    }
+
+    function openImage(url) {
+      window.open(url, "_blank");
+    }
+
+    function isApiLink(text) {
+      // Utiliza una expresión regular para verificar si el texto es un enlace a una API
+      const apiLinkRegex = /^https?:\/\/\S+/i;
+      return apiLinkRegex.test(text);
+    }
+    function getJSON() {
+      try {
+        const jsonString = editor.getValue();
+        const json = JSON.parse(jsonString);
+        localStorage.setItem("json", JSON.stringify(json));
+        return json;
+      } catch (e) {
         const storedJsonString = localStorage.getItem("json");
-        const storedURL = localStorage.getItem("api_url");
-        let input = document.querySelector("#fetch");
-        input.value = "";
+        const storedJson = JSON.parse(storedJsonString);
+        return storedJson ? storedJson : placeholder;
+      }
+    }
 
-        if (storedJsonString) {
-          localStorage.removeItem("json");
-          editor.setValue("");
-          graphBox.innerHTML = placeholder;
-          if (storedURL) {
-            localStorage.removeItem("api_url");
-          }
+    function clearContent() {
+      const storedJsonString = localStorage.getItem("json");
+      const storedURL = localStorage.getItem("api_url");
+      let input = document.querySelector("#fetch");
+      input.value = "";
+
+      if (storedJsonString) {
+        localStorage.removeItem("json");
+        editor.setValue("");
+        graphBox.innerHTML = placeholder;
+        if (storedURL) {
+          localStorage.removeItem("api_url");
         }
       }
+    }
 
-      function formatContent(content) {
-        return (formattedJson = js_beautify(content, {
-          indent_size: 2,
-        }));
+    function formatContent(content) {
+      return (formattedJson = js_beautify(content, {
+        indent_size: 2,
+      }));
+    }
+
+    function fetchData(url) {
+      localStorage.setItem("api_url", url);
+
+      let input = document.querySelector("#fetch");
+
+      input.value = url;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          const formattedJson = formatContent(JSON.stringify(json));
+          editor.setValue(formattedJson);
+          graphBox.innerHTML = createElements(json);
+          document.body.scrollIntoView({ behavior: "smooth" });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          // Manejar el error según sea necesario
+        });
+    }
+
+    // Seleccionar todos los elementos .key
+    const keyElements = document.querySelectorAll(".key");
+
+    // Iterar sobre cada elemento .key
+    keyElements.forEach((keyElement) => {
+      // Verificar si el siguiente elemento es una imagen
+      const nextElement = keyElement.nextElementSibling;
+      if (nextElement && nextElement.tagName === "IMG") {
+        // Aplicar estilos al elemento .key
+        keyElement.classList.add("with-image");
       }
+    });
+  </script>
+</body>
 
-      function fetchData(url) {
-        localStorage.setItem("api_url", url);
-
-        let input = document.querySelector("#fetch");
-
-        input.value = url;
-
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => {
-            const formattedJson = formatContent(JSON.stringify(json));
-            editor.setValue(formattedJson);
-            graphBox.innerHTML = createElements(json);
-            document.body.scrollIntoView({ behavior: "smooth" });
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-            // Manejar el error según sea necesario
-          });
-      }
-
-      // Seleccionar todos los elementos .key
-      const keyElements = document.querySelectorAll(".key");
-
-      // Iterar sobre cada elemento .key
-      keyElements.forEach((keyElement) => {
-        // Verificar si el siguiente elemento es una imagen
-        const nextElement = keyElement.nextElementSibling;
-        if (nextElement && nextElement.tagName === "IMG") {
-          // Aplicar estilos al elemento .key
-          keyElement.classList.add("with-image");
-        }
-      });
-    </script>
-  </body>
 </html>

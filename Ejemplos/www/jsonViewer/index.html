@@ -139,12 +139,19 @@
 
       const objectEntries = Object.entries(obj)
         .map(
-          ([key, value]) =>
-            `<div class="object-line"><span class="key">${key}:</span> ${createElements(
-              value,
-              key
-            )}</div>`
-        )
+          ([key, value]) => {
+            if (typeof value !== 'object') {
+              return `<div class="object-line"><span class="key">${key}:</span> ${createElements(
+                value,
+                key
+              )}</div>`
+            }else{
+              return `<div class="object-line">${createElements(
+                value,
+                key
+              )}</div>`
+            }
+          })
         .join("");
 
       const objectTitle = propertyName
@@ -201,6 +208,16 @@
       return (formattedJson = js_beautify(content, {
         indent_size: 2,
       }));
+    }
+
+    function debounce(func, delay) {
+      let timer;
+      return function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, arguments);
+        }, delay);
+      };
     }
 
     function fetchData(url) {

@@ -27,7 +27,7 @@ nav {
   gap: 20vw;
   position: sticky;
   top: 0;
-  padding: 1% 0px;
+  padding: 1.2rem 0px;
   background: #222;
   width: 100%;
 
@@ -342,11 +342,9 @@ main{
   color: #fff;
   border-radius: 4px;
   border: 3px solid #e18f00;
-  margin: 10px;
+  margin: 20px;
+  padding-bottom: 10px;
   max-width: 800px;
-  padding: 20px;
-  padding-top: 40px;
-  position: relative;
 }
 
 @media (max-width: 1750px) {
@@ -383,7 +381,7 @@ main{
 .array {
   border: 5px solid #00E18F;
   margin-top: 20px;
-  margin: 10px;
+  margin: 20px;
   border-radius: 6px;
   max-width: 800px;
 }
@@ -404,6 +402,7 @@ main{
   color: #222 ;
   padding-bottom: 4px;
   font-weight: bold;
+  z-index: 2;
 }
 
 .array-item {
@@ -414,9 +413,7 @@ main{
 
 .object-title {
   display: block;
-  top: 0;
-  left: 0;
-  right: 0;
+  margin-top: 0;
   font-size: 20px;
   background-color: #e18f00;
   text-align: center;
@@ -424,11 +421,11 @@ main{
   color: #222;
   padding-bottom: 4px;
   font-weight: bold;
-  position: absolute; /* Cambiado a absolute */
+  z-index: 3;
 }
 
 .object-line {
-  margin: 10px 0;
+  margin: 20px;
 }
 
 .with-image{
@@ -496,6 +493,7 @@ main{
   font-weight: bold;
   margin-top: -10px;
 }
+
 /*
 
 #------------------------
